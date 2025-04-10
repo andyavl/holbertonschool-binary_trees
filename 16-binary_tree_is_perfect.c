@@ -1,25 +1,19 @@
 #include "binary_trees.h"
 
 /**
- * tree_height - measures the height of a binary tree
- * @tree: the root of the tree
- * Return: height of the tree
+ * p_nodes - counts the nodes with at least 1 child
+ * @tree: pointer to a tree node
+ * Return: amount of nodes with child
  */
-size_t tree_height(const binary_tree_t *tree)
+size_t p_nodes(const binary_tree_t *tree)
 {
-	size_t lheight = 0;
-	size_t rheight = 0;
-
 	if (!tree)
 		return (0);
-	if (!tree->left && !tree->right)
-		return (1);
-	if (tree->left)
-		lheight = 1 + tree_height(tree->left);
-	if (tree->right)
-		rheight = 1 + tree_height(tree->right);
 
-	return (lheight > rheight ? lheight : rheight);
+	if (!tree->left && !tree->right)
+		return (0);
+
+	return (1 + p_nodes(tree->left) + p_nodes(tree->right));
 }
 
 /**
@@ -50,7 +44,7 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
 	if (!tree)
 		return (0);
 
-	if ((tree_height(tree->left) - tree_height(tree->right) == 0) &&
+	if ((p_nodes(tree->left) - p_nodes(tree->right) == 0) &&
 		(is_full(tree) == 1))
 		return (1);
 	return (0);
